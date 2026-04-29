@@ -1,0 +1,19 @@
+name: rstudio-server
+
+services:
+  rstudioserver:
+    #container_name: "some_explicit_non_default_container_name"
+    build:
+      context: ./ubuntu
+      dockerfile: Dockerfile
+      # TODO: proper UID / GID mapping of host user --> container user
+      # (we simply hope that the host user has the same UID and GID
+      # as the 'ubuntu' user on the container)
+      #args:
+      #  USER_UID: 1000
+      #  USER_GID: 1000
+    ports:
+      - "8080:80"
+    volumes:
+      - ./working_folder:/home/ubuntu
+    command: "tail -f /var/log/rstudio/rstudio-server/rserver.log"
